@@ -38,9 +38,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="935" y="-183"/>
+            <point key="canvasLocation" x="875" y="138"/>
         </scene>
-        <!--Get Address-->
+        <!--Get Directions-->
         <scene sceneID="uam-DH-vnR">
             <objects>
                 <viewController id="wnh-AD-mGT" customClass="GeoReverseVC" customModule="MyLocation" customModuleProvider="target" sceneMemberID="viewController">
@@ -71,30 +71,44 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQs-d9-qNd">
+                                <rect key="frame" x="254" y="743" width="140" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2No-4Z-EC9"/>
+                                    <constraint firstAttribute="width" constant="140" id="CZN-9K-O13"/>
+                                </constraints>
+                                <state key="normal" title="Get directions"/>
+                                <connections>
+                                    <action selector="directionsTapped:" destination="wnh-AD-mGT" eventType="touchUpInside" id="GKR-1l-3g6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="0wz-UO-Wct" firstAttribute="top" secondItem="hEy-Vp-zEc" secondAttribute="top" id="FPt-wV-CX7"/>
                             <constraint firstItem="hEy-Vp-zEc" firstAttribute="trailing" secondItem="g6Z-El-0Yj" secondAttribute="trailing" id="Mfw-HL-XOf"/>
+                            <constraint firstItem="hEy-Vp-zEc" firstAttribute="bottom" secondItem="zQs-d9-qNd" secondAttribute="bottom" constant="30" id="VSp-5x-hCU"/>
                             <constraint firstItem="sei-in-3A2" firstAttribute="centerX" secondItem="wpB-Ce-VgU" secondAttribute="centerX" id="X4j-Ee-BLp"/>
                             <constraint firstItem="hEy-Vp-zEc" firstAttribute="bottom" secondItem="0wz-UO-Wct" secondAttribute="bottom" id="by2-Yt-fiA"/>
                             <constraint firstItem="hEy-Vp-zEc" firstAttribute="trailing" secondItem="0wz-UO-Wct" secondAttribute="trailing" id="jQg-fy-g7B"/>
                             <constraint firstItem="g6Z-El-0Yj" firstAttribute="leading" secondItem="hEy-Vp-zEc" secondAttribute="leading" id="mJm-f7-bea"/>
                             <constraint firstItem="sei-in-3A2" firstAttribute="centerY" secondItem="wpB-Ce-VgU" secondAttribute="centerY" constant="-35" id="mY7-Jz-fTQ"/>
                             <constraint firstItem="0wz-UO-Wct" firstAttribute="leading" secondItem="hEy-Vp-zEc" secondAttribute="leading" id="qCz-wZ-KBM"/>
+                            <constraint firstItem="hEy-Vp-zEc" firstAttribute="trailing" secondItem="zQs-d9-qNd" secondAttribute="trailing" constant="20" id="s45-Hq-Jv8"/>
                             <constraint firstItem="g6Z-El-0Yj" firstAttribute="top" secondItem="hEy-Vp-zEc" secondAttribute="top" id="sJb-BT-Pmx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hEy-Vp-zEc"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Get Address" image="mappin" catalog="system" selectedImage="mappin" id="HgI-dl-pUG"/>
+                    <tabBarItem key="tabBarItem" title="Get Directions" image="mappin" catalog="system" selectedImage="mappin" id="HgI-dl-pUG"/>
                     <connections>
+                        <outlet property="directionsButton" destination="zQs-d9-qNd" id="0JZ-q7-vSU"/>
                         <outlet property="locationLabel" destination="g6Z-El-0Yj" id="eNU-z4-fXa"/>
                         <outlet property="mapView" destination="0wz-UO-Wct" id="7fo-CC-wgc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3U-HQ-W4g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934.78260869565224" y="492.85714285714283"/>
+            <point key="canvasLocation" x="1551" y="138"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Iay-as-EM8">
@@ -112,7 +126,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M12-0U-FyK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1551" y="-600"/>
         </scene>
     </scenes>
     <resources>

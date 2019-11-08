@@ -11,17 +11,77 @@ import MapKit
 
 class GeoReverseVC: UIViewController {
 
-    
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var directionsButton: UIButton!
     @IBOutlet weak var locationLabel: UILabel!
     let locationManager = CLLocationManager()
     var previousLocation: CLLocation?
+    var directionsArr = [MKDirections]()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setDirectionsButtonUI()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkDeviceLocationService()
     }
+    
+    private func setDirectionsButtonUI() {
+        directionsButton.backgroundColor = .white
+        directionsButton.tintColor = .blue
+        directionsButton.layer.borderColor = UIColor.blue.cgColor
+        directionsButton.layer.borderWidth = 1
+        directionsButton.layer.cornerRadius = 5
+    }
+    
+    func getDirections() {
+        guard let location = locationManager.location?.coordinate else {
+            showAlert(title: "Uh-oh!", msg: "We dont have your current addess")
+            return
+        }
         
+        let request = setDirectionsRequest(from: location)
+        let directions = MKDirections(request: request)
+        replaceOldMapViewDirections(withNew: directions)
+        
+        directions.calculate { [unowned self] (response, error) in
+            if error != nil {
+                self.showAlert(title: "Oops!", msg: error!.localizedDescription)
+                return
+            }
+            guard let response = response else {
+                self.showAlert(title: "Oops!", msg: "Response not available right now.")
+                return
+            }
+            
+            for route in response.routes {
+                // NOTE: To get directions step by step - each step contains a SINGLE direction
+                // let steps = route.steps
+                self.mapView.addOverlay(route.polyline)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+            }
+        }
+    }
+    
+    func setDirectionsRequest(from coordinate: CLLocationCoordinate2D) -> MKDirections.Request {
+        let destinationCoordinate = centerLocation(for: mapView).coordinate
+        let startingLocation = MKPlacemark(coordinate: coordinate)
+        let destination = MKPlacemark(coordinate: destinationCoordinate)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startingLocation)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .automobile
+        request.requestsAlternateRoutes = true
+        return request
+    }
+    
+    @IBAction func directionsTapped(_ sender: UIButton) {
+        getDirections()
+    }
+    
     private func checkDeviceLocationService() {
         if CLLocationManager.locationServicesEnabled() {
             initLocationManager()
@@ -74,6 +134,12 @@ class GeoReverseVC: UIViewController {
         return CLLocation(latitude: latitude, longitude: longiture)
     }
     
+    private func replaceOldMapViewDirections(withNew directions: MKDirections) {
+        mapView.removeOverlays(mapView.overlays)
+        directionsArr.append(directions)
+        let _ = directionsArr.map { $0.cancel() }
+    }
+    
 }
 
 
@@ -110,5 +176,11 @@ extension GeoReverseVC: MKMapViewDelegate {
                 self.locationLabel.text = "\(streetNum) \(nameOfStreet)"
             }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .red
+        return renderer
     }
 }
